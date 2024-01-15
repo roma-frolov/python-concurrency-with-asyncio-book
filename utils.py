@@ -12,19 +12,18 @@ async def delay(delay_seconds: int) -> int:
     return delay_seconds
 
 
-def async_timed():
-    def wrapper(function: Callable) -> Callable:
-        @functools.wraps(function)
-        async def wrapped(*args, **kwargs) -> Any:
-            print(f'Выполняется "{function.__name__}" с args: {args}; kwargs: {kwargs}')
-            start = time.time()
 
-            try:
-                return await function(*args, **kwargs)
-            finally:
-                end = time.time()
-                total = end - start
-                print(f'"{function.__name__}" завершилась за {total:.4f} с')
+def async_timed(function: Callable) -> Callable:
+    @functools.wraps(function)
+    async def wrapper(*args, **kwargs) -> Any:
+        print(f'Выполняется "{function.__name__}" с args: {args}; kwargs: {kwargs}')
+        start = time.time()
 
-        return wrapped
+        try:
+            return await function(*args, **kwargs)
+        finally:
+            end = time.time()
+            total = end - start
+            print(f'"{function.__name__}" завершилась за {total:.4f} с')
+
     return wrapper

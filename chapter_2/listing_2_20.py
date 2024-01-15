@@ -9,12 +9,12 @@ from utils import (
 )
 
 
-@async_timed()
+@async_timed
 async def get_request_status_code(url: str):
     return requests.get(url).status_code
 
 
-@async_timed()
+@async_timed
 async def main():
     url = 'https://www.example.com/'
     first_task = asyncio.create_task(get_request_status_code(url))
